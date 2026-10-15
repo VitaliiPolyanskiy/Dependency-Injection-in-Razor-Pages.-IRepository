@@ -4,63 +4,45 @@ using Microsoft.EntityFrameworkCore;
 using RazorPagesApp.Models;
 using RazorPagesApp.Repository;
 
-namespace RazorPagesApp.Pages
+namespace RazorPagesApp.Pages;
+
+public class EditModel(IRepository repo) : PageModel
 {
-    public class EditModel : PageModel
+    [BindProperty]
+    public Student Student { get; set; } = default!;
+
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
-        private readonly IRepository repo;
+        if (id == null || await repo.GetStudentList() == null) return NotFound();
 
-        public EditModel(IRepository r)
+        var student = await repo.GetStudent((int)id);
+
+        if (student == null) return NotFound();
+
+        Student = student;
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid) return Page();
+
+        try
         {
-            repo = r;
+            repo.Update(Student);
+            await repo.Save();
         }
-
-        [BindProperty]
-        public Student Student { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        catch (DbUpdateConcurrencyException)
         {
-            if (id == null || await repo.GetStudentList() == null)
-            {
-                return NotFound();
-            }
-            Student = await repo.GetStudent((int)id);
-            if (Student == null)
-            {
-                return NotFound();
-            }
-            return Page();
+            if (!await StudentExists(Student.Id)) return NotFound();
+            else throw;
         }
+        return RedirectToPage("./Index");
+    }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    repo.Update(Student);
-                    await repo.Save();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await StudentExists(Student.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToPage("./Index");
-            }
-            return Page();
-        }
-
-        private async Task<bool> StudentExists(int id)
-        {
-            List<Student> list = await repo.GetStudentList();
-            return (list?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+    private async Task<bool> StudentExists(int id)
+    {
+        List<Student> list = await repo.GetStudentList();
+        return (list?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }

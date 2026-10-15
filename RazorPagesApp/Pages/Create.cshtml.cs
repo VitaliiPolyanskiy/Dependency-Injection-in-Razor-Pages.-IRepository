@@ -3,34 +3,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPagesApp.Models;
 using RazorPagesApp.Repository;
 
-namespace RazorPagesApp.Pages
+namespace RazorPagesApp.Pages;
+
+public class CreateModel(IRepository repo) : PageModel
 {
-    public class CreateModel : PageModel
+    public IActionResult OnGet() => Page();
+
+    [BindProperty]
+    public Student Student { get; set; } = default!;
+
+    public async Task<IActionResult> OnPostAsync()
     {
-        private readonly IRepository repo;
-
-        public CreateModel(IRepository r)
+        if (ModelState.IsValid)
         {
-            repo = r;
+            await repo.Create(Student);
+            await repo.Save();
+            return RedirectToPage("./Index");
         }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-
-        [BindProperty]
-        public Student Student { get; set; } = default!;
-        
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                await repo.Create(Student);
-                await repo.Save();
-                return RedirectToPage("./Index");
-            }
-            return Page();
-        }
+        return Page();
     }
 }

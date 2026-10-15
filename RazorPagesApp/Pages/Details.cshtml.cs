@@ -3,32 +3,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPagesApp.Models;
 using RazorPagesApp.Repository;
 
-namespace RazorPagesApp.Pages
+namespace RazorPagesApp.Pages;
+
+public class DetailsModel(IRepository repo) : PageModel
 {
-    public class DetailsModel : PageModel
+    public Student Student { get; set; } = default!;
+
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
-        private readonly IRepository repo;
+        if (id == null || await repo.GetStudentList() == null) return NotFound();
 
-        public DetailsModel(IRepository r)
-        {
-            repo = r;
-        }
+        var student = await repo.GetStudent((int)id);
 
-      public Student Student { get; set; } = default!; 
+        if (student == null) return NotFound();
 
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null || await repo.GetStudentList() == null)
-            {
-                return NotFound();
-            }
-            Student = await repo.GetStudent((int)id);
-
-            if (Student == null)
-            {
-                return NotFound();
-            }
-            return Page();
-        }
+        Student = student;
+        return Page();
     }
 }

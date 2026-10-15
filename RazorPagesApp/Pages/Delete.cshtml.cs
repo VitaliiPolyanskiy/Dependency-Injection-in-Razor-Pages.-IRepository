@@ -3,46 +3,40 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPagesApp.Models;
 using RazorPagesApp.Repository;
 
-namespace RazorPagesApp.Pages
+namespace RazorPagesApp.Pages;
+
+public class DeleteModel(IRepository repo) : PageModel
 {
-    public class DeleteModel : PageModel
+    [BindProperty]
+    public Student Student { get; set; } = default!;
+
+    public async Task<IActionResult> OnGetAsync(int? id)
     {
-        private readonly IRepository repo;
+        if (id == null || await repo.GetStudentList() == null)
+            return NotFound();
 
-        public DeleteModel(IRepository r)
+        var student = await repo.GetStudent((int)id);
+
+        if (student == null)
+            return NotFound();
+
+        Student = student;
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int? id)
+    {
+        if (await repo.GetStudentList() == null)
+            return NotFound();
+
+        var student = await repo.GetStudent((int)id);
+
+        if (student != null)
         {
-            repo = r;
+            await repo.Delete((int)id);
+            await repo.Save();
         }
 
-        public Student Student { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null || await repo.GetStudentList() == null)
-            {
-                return NotFound();
-            }
-            Student = await repo.GetStudent((int)id);
-            if (Student == null)
-            {
-                return NotFound();
-            }     
-            return Page();
-        }
-
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (await repo.GetStudentList() == null)
-            {
-                return NotFound();
-            }
-            Student = await repo.GetStudent((int)id);
-            if (Student != null)
-            {
-                await repo.Delete((int)id); 
-                await repo.Save();
-            }
-            return RedirectToPage("./Index");
-        }
+        return RedirectToPage("./Index");
     }
 }

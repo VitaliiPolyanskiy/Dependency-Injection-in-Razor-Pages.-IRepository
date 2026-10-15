@@ -1,28 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RazorPagesApp.Models
+namespace RazorPagesApp.Models;
+
+public class Student
 {
-    public class Student
-    {
-        // Идентификатор студента
-        public int Id { get; set; }
+    // Ідентифікатор студента
+    public int Id { get; set; }
 
-        // Имя студента
-        [Required(ErrorMessage = "Поле должно быть установлено")]
-        public string? Name { get; set; }
+    // Ім'я студента
+    [Required(ErrorMessage = "Поле має бути заповнене")]
+    public string? Name { get; set; }
 
-        // Фамилия студента
-        [Required(ErrorMessage = "Поле должно быть установлено")]
-        public string? Surname { get; set; }
+    // Прізвище студента
+    [Required(ErrorMessage = "Поле має бути заповнене")]
+    public string? Surname { get; set; }
 
-        // Возраст студента
-        [Required(ErrorMessage = "Поле должно быть установлено")]
-        [Range(15, 60, ErrorMessage = "Недопустимый возраст")]
-        public int Age { get; set; }
+    // Вік студента
+    [Required(ErrorMessage = "Поле має бути заповнене")]
+    [Range(15, 60, ErrorMessage = "Неприпустимий вік")]
+    public int Age { get; set; }
 
-        // Средний балл
-        [Required(ErrorMessage = "Поле должно быть установлено")]
-        [Range(0.0, 12.0, ErrorMessage = "Недопустимый средний балл")]
-        public double GPA { get; set; }
-    }
+    // Середній бал
+    [Required(ErrorMessage = "Поле має бути заповнене")]
+    [Range(0.0, 12.0, ErrorMessage = "Неприпустимий середній бал")]
+    public double GPA { get; set; }
 }

@@ -3,15 +3,17 @@ using RazorPagesApp.Models;
 using RazorPagesApp.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
-// Получаем строку подключения из файла конфигурации
+
+// Отримуємо рядок підключення з файлу конфігурації
 string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// добавляем контекст ApplicationContext в качестве сервиса в приложение
+// Додаємо контекст StudentContext як сервіс у застосунок
 builder.Services.AddDbContext<StudentContext>(options => options.UseSqlServer(connection));
 
-// Add services to the container.
+// Додаємо сервіси Razor Pages
 builder.Services.AddRazorPages();
 
+// Реєструємо репозиторій для впровадження залежностей
 builder.Services.AddScoped<IRepository, StudentRepository>();
 
 var app = builder.Build();

@@ -1,45 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RazorPagesApp.Models;
 
-namespace RazorPagesApp.Repository
+namespace RazorPagesApp.Repository;
+
+public class StudentRepository(StudentContext context) : IRepository
 {
-    public class StudentRepository : IRepository
+    public async Task<List<Student>> GetStudentList()
     {
-        private readonly StudentContext _context;
+        return await context.Students.ToListAsync();
+    }
 
-        public StudentRepository(StudentContext context)
-        {
-            _context = context;
-        }
-        public async Task<List<Student>> GetStudentList()
-        {
-            return await _context.Students.ToListAsync();
-        }
-        public async Task<Student> GetStudent(int id)
-        {
-            return await _context.Students.FindAsync(id);
-        }
+    public async Task<Student?> GetStudent(int id)
+    {
+        return await context.Students.FindAsync(id);
+    }
 
-        public async Task Create(Student c)
-        {
-            await _context.Students.AddAsync(c);
-        }
+    public async Task Create(Student c)
+    {
+        await context.Students.AddAsync(c);
+    }
 
-        public void Update(Student c)
-        {
-            _context.Entry(c).State = EntityState.Modified;
-        }
+    public void Update(Student c)
+    {
+        context.Entry(c).State = EntityState.Modified;
+    }
 
-        public async Task Delete(int id)
-        {
-            Student? c = await _context.Students.FindAsync(id);
-            if (c != null)
-                _context.Students.Remove(c);
-        }
+    public async Task Delete(int id)
+    {
+        Student? c = await context.Students.FindAsync(id);
+        if (c != null)
+            context.Students.Remove(c);
+    }
 
-        public async Task Save()
-        {
-            await _context.SaveChangesAsync();
-        }       
+    public async Task Save()
+    {
+        await context.SaveChangesAsync();
     }
 }

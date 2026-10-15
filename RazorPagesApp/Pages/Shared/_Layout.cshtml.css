@@ -1,48 +1,40 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿<!DOCTYPE html >
+<html lang="uk" >
+<head >
+<meta charset="utf-8" / >
+<meta name="viewport" content="width=device-width, initial-scale=1.0" / >
+<title > @ViewData["Title"] - Застосунок Razor Pages</title >
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" / >
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" / >
+<link rel="stylesheet" href="~/RazorPagesApp.styles.css" asp-append-version="true" / >
+</head >
+<body class="d-flex flex-column min-vh-100" >
+<header >
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom shadow-sm mb-3" >
+<div class="container-fluid" >
+<a class="navbar-brand" href="/Index" > ASP.NET Core Razor Pages</a >
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Перемикач навігації" >
+<span class="navbar-toggler-icon" > </span >
+</button >
+</div >
+</nav >
+</header >
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
+<div class="container flex-grow-1" >
+<main role="main" class="pb-3" >
+@RenderBody()
+</main >
+</div >
 
-a {
-  color: #0077cc;
-}
+<footer class="border-top footer text-muted py-3 mt-auto" >
+<div class="container" >
+&copy; @DateTime.Now.Year - ASP.NET Core MVC Застосунок
+</div >
+</footer >
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
-}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" > </script >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" > </script >
+<script src="~/js/site.js" asp-append-version="true" > </script >
+@await RenderSectionAsync("Scripts", required: false)
+</body >
+</html >

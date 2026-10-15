@@ -2,48 +2,47 @@
 @model RazorPagesApp.Pages.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Створення";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Student</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Student.Name" class="control-label"></label>
-                <input asp-for="Student.Name" class="form-control" />
-                <span asp-validation-for="Student.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Student.Surname" class="control-label"></label>
-                <input asp-for="Student.Surname" class="form-control" />
-                <span asp-validation-for="Student.Surname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Student.Age" class="control-label"></label>
-                <input asp-for="Student.Age" class="form-control" />
-                <span asp-validation-for="Student.Age" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Student.GPA" class="control-label"></label>
-                <input asp-for="Student.GPA" class="form-control" />
-                <span asp-validation-for="Student.GPA" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="mt-4">
+    <h1>Створити</h1>
+    <h4>Студент</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-5">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="Student.Name" class="form-label"></label>
+                    <input asp-for="Student.Name" class="form-control" />
+                    <span asp-validation-for="Student.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Student.Surname" class="form-label"></label>
+                    <input asp-for="Student.Surname" class="form-control" />
+                    <span asp-validation-for="Student.Surname" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Student.Age" class="form-label"></label>
+                    <input asp-for="Student.Age" class="form-control" />
+                    <span asp-validation-for="Student.Age" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Student.GPA" class="form-label"></label>
+                    <input asp-for="Student.GPA" class="form-control" />
+                    <span asp-validation-for="Student.GPA" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Створити</button>
+                    <a asp-page="Index" class="btn btn-secondary ms-2">Повернутися до списку</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
